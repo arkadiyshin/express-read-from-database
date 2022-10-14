@@ -1,7 +1,7 @@
 const database = require("./database");
 
 const getUsers = (req, res) => {
-  const initialSql = "select * from users";
+  const initialSql = "select firstname, lastname, email, city, language from users";
   const where = [];
 
   if (req.query.city != null) {
@@ -18,7 +18,7 @@ const getUsers = (req, res) => {
       operator: "=",
     });
   }
-
+  
   database
     .query(
       where.reduce(
@@ -29,6 +29,7 @@ const getUsers = (req, res) => {
       where.map(({ value }) => value)
     )
     .then(([users]) => {
+      console.log(users)
       res.json(users);
     })
     .catch((err) => {
